@@ -31,11 +31,22 @@ class Quiz extends React.Component {
             }
         ]
     };
+
+    //Получаем правильный ответ у активного вопроса;
+    // Сравниваем правильный ответ с введенным;
+    //Если true записываем в answerState id и success;
+    // answerState существует для присвоения класса success или error при клике;
+        //Ждем секунду и проверяем последний ли вопрос в списке;
+        // Если true выводим log;
+        // Если false переключаем вопрос на следующий;
+    //Если false записываем в answerState id и error;
+
+
     onAnswerClickHandler = answerId => {
+
         const rightAnswerId = this.state.quiz[this.state.activeQuestion].rightAnswer;
 
         if (rightAnswerId === answerId) {
-
             this.setState({answerState: {[answerId]: 'success'}});
 
             const timeout = window.setTimeout(() => {
