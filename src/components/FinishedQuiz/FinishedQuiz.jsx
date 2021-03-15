@@ -1,5 +1,6 @@
 import React from "react";
 import style from "./FinishedQuiz.module.scss"
+import Button from "../UI/Button/Button";
 
 const FinishedQuiz = props => {
     const rightResults = Object.keys(props.results).filter(result => props.results[result] === "success");
@@ -25,7 +26,8 @@ const FinishedQuiz = props => {
 
             <p>Правильно {rightResults.length} из {props.quizLengh}</p>
             <div>
-                <button onClick={props.onRestart}>Повторить</button>
+                <Button onClick={props.onRestart} type={"primary"}>Повторить</Button>
+                <Button type={"success"}>Перейтии к списку тестов</Button>
             </div>
 
         </div>
