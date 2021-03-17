@@ -19,15 +19,14 @@ class Layout extends React.Component {
             <div className={style.Layout}>
 
                 <Drawer isOpen={this.state.menu} onClick={this.menuCloseHandler}/>
-
                 <MenuToggle
                     isOpen={this.state.menu}
                     onToggle={this.menuToggleHandler}
                 />
-
                 <main>
                     {this.props.children}
                 </main>
+
             </div>
         );
     }
