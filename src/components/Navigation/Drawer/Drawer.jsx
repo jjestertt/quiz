@@ -13,7 +13,7 @@ class Drawer extends React.Component {
     renderLinks = () => {
         return (
             links.map((link, index) => (
-                <li>
+                <li key={index}>
                     <NavLink exact={link.exact}
                              to={link.to}
                              activeClassName={style.active}

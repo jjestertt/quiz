@@ -1,9 +1,17 @@
 import React from "react";
 import style from "./FinishedQuiz.module.scss"
 import Button from "../UI/Button/Button";
+import {withRouter} from "react-router-dom";
 
 const FinishedQuiz = props => {
     const rightResults = Object.keys(props.results).filter(result => props.results[result] === "success");
+
+    const goToListQuizHandler = () =>{
+        // Это можно заменить обернув кнопку в компонент <Link />
+        props.history.push({
+            pathname:"/"
+        });
+    }
 
     return (
         <div className={style.FinishedQuiz}>
@@ -27,11 +35,11 @@ const FinishedQuiz = props => {
             <p>Правильно {rightResults.length} из {props.quizLengh}</p>
             <div>
                 <Button onClick={props.onRestart} type={"primary"}>Повторить</Button>
-                <Button type={"success"}>Перейтии к списку тестов</Button>
+                <Button onClick={goToListQuizHandler} type={"success"}>Перейтии к списку тестов</Button>
             </div>
 
         </div>
     );
 }
 
-export default FinishedQuiz;
+export default withRouter(FinishedQuiz);
