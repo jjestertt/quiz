@@ -1,6 +1,7 @@
 import React from "react";
 import style from "./ActiveQuiz.module.scss";
 import AnswersList from "./AnswersList/AnswersList";
+import {withRouter} from "react-router";
 
 const ActiveQuiz = (props) => {
     return (
@@ -20,4 +21,4 @@ const ActiveQuiz = (props) => {
     );
 }
 
-export default ActiveQuiz;
+export default withRouter(ActiveQuiz);
