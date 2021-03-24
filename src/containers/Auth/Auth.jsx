@@ -2,6 +2,7 @@ import React from "react";
 import Button from "./../../components/UI/Button/Button";
 import style from "./Auth.module.scss";
 import Input from "../../components/UI/Input/Input";
+import is from "is_js";
 
 class Auth extends React.Component {
     state = {
@@ -27,7 +28,7 @@ class Auth extends React.Component {
                 touched: false,
                 validation: {
                     required: true,
-                    minLength6: true
+                    minLength: 6
                 }
             },
         }
@@ -37,10 +38,37 @@ class Auth extends React.Component {
         e.preventDefault();
     }
 
-    onChangeHandler = (e, controlName) =>{
+    validateControl = (value, validation) => {
+        if (!validation) {
+            return true;
+        }
+        let isValid = true;
+
+        if (validation.required) {
+            isValid = value.trim() !== "" && isValid;
+        }
+
+        if (validation.email) {
+           isValid = is.email(value) && isValid;
+        }
+
+        if (validation.minLength) {
+            isValid = value.trim().length >= validation.minLength && isValid;
+        }
+
+        return isValid;
+    }
+
+    onChangeHandler = (e, controlName) => {
         const formControls = {...this.state.formControls}
-        formControls[controlName].value = e.target.value;
-        this.setState(formControls);
+        const control = {...formControls[controlName]}
+        control.value = e.target.value;
+        control.touched = true;
+
+        control.valid = this.validateControl(control.value, control.validation);
+
+        formControls[controlName] = control;
+        this.setState({formControls});
     }
 
     inputRenderHandler = () => {
@@ -50,7 +78,9 @@ class Auth extends React.Component {
                 <Input
                     key={controlName + index}
                     value={control.value}
-                    onChange={(e) => {this.onChangeHandler(e, controlName)}}
+                    onChange={(e) => {
+                        this.onChangeHandler(e, controlName)
+                    }}
                     type={control.type}
                     label={control.label}
                     errorMessage={control.errorMessage}
