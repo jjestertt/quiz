@@ -6,29 +6,32 @@ import is from "is_js";
 
 class Auth extends React.Component {
     state = {
+        isFormValid: false,
         formControls: {
             email: {
                 value: "",
                 type: "email",
-                label: "Mail",
-                errorMessage: "Введите правильно mail",
+                label: "Email",
+                errorMessage: "",
                 valid: false,
                 touched: false,
                 validation: {
                     required: true,
-                    email: true
+                    email: true,
+                    maxLength: 25
                 }
             },
             password: {
                 value: "",
                 type: "password",
                 label: "Пароль",
-                errorMessage: "Введите правильно пароль",
+                errorMessage: "",
                 valid: false,
                 touched: false,
                 validation: {
                     required: true,
-                    minLength: 6
+                    minLength: 6,
+                    maxLength: 50
                 }
             },
         }
@@ -38,25 +41,47 @@ class Auth extends React.Component {
         e.preventDefault();
     }
 
+    
     validateControl = (value, validation) => {
         if (!validation) {
             return true;
         }
+
         let isValid = true;
 
         if (validation.required) {
-            isValid = value.trim() !== "" && isValid;
+             if (value.trim() !== "") {
+                 isValid = true;
+             } else {
+                 return {isValid: false, errorMessage: "Поле не должно быть пустым"}
+             }
         }
 
         if (validation.email) {
-           isValid = is.email(value) && isValid;
+             if (is.email(value)){
+                 isValid = true;
+             } else {
+                 return {isValid: false, errorMessage: "Введите корректный Email"}
+             }
         }
 
         if (validation.minLength) {
-            isValid = value.trim().length >= validation.minLength && isValid;
+            if (value.trim().length >= validation.minLength) {
+                isValid = true;
+            } else{
+                return {isValid: false, errorMessage: `Минимальная длинна ${validation.minLength} символов`}
+            }
         }
 
-        return isValid;
+        if (validation.maxLength) {
+            if (value.trim().length < validation.maxLength) {
+                isValid = true;
+            } else {
+                return {isValid: false, errorMessage: `Максимальная длинна ${validation.maxLength} символов`}
+            }
+        }
+
+        return {isValid};
     }
 
     onChangeHandler = (e, controlName) => {
@@ -65,10 +90,19 @@ class Auth extends React.Component {
         control.value = e.target.value;
         control.touched = true;
 
-        control.valid = this.validateControl(control.value, control.validation);
+        let validateControl = this.validateControl(control.value, control.validation);
+        control.valid = validateControl.isValid;
+        control.errorMessage = validateControl.errorMessage;
 
         formControls[controlName] = control;
-        this.setState({formControls});
+
+        let isFormValid = true;
+
+        Object.keys(formControls).forEach(item => {
+            isFormValid = formControls[item].valid && isFormValid;
+        });
+
+        this.setState({formControls, isFormValid});
     }
 
     inputRenderHandler = () => {
@@ -107,17 +141,18 @@ class Auth extends React.Component {
                     <form className={style.authForm} onSubmit={this.submitHandler}>
 
                         {this.inputRenderHandler()}
-                        {/*<Input label="Почта" type="email" />*/}
-                        {/*<Input label="Пароль" type="password"/>*/}
+
                         <Button
                             type="success"
                             onClick={this.loginHandler}
+                            disabled={!this.state.isFormValid}
                         >
                             Войти
                         </Button>
                         <Button
                             type="primary"
                             onClick={this.registerHandler}
+                            disabled={!this.state.isFormValid}
                         >
                             Зарегистрироваться
                         </Button>
