@@ -19,14 +19,18 @@ class QuizList extends React.Component {
     }
 
     async componentDidMount() {
-        const response = await axios.get('quizes.json');
-        let quizes = this.state.quizes.concat();
+        try{
+            const response = await axios.get('quizes.json');
+            let quizes = this.state.quizes.concat();
 
-        Object.keys(response.data).forEach((key) => {
-            quizes.push({id: key});
-        });
+            Object.keys(response.data).forEach((key) => {
+                quizes.push({id: key});
+            });
 
-        this.setState({quizes, isFetch: false})
+            this.setState({quizes, isFetch: false});
+        } catch (e){
+            console.error(e);
+        }
     }
 
     render() {
@@ -41,7 +45,6 @@ class QuizList extends React.Component {
                                 {this.renderQuizes()}
                             </ul>
                     }
-
                 </div>
             </div>
         );

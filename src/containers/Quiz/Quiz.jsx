@@ -2,6 +2,8 @@ import React from "react";
 import style from "./Quiz.module.scss";
 import ActiveQuiz from "../../components/ActiveQuiz/ActiveQuiz";
 import FinishedQuiz from "../../components/FinishedQuiz/FinishedQuiz";
+import axios from "../../axios/axios";
+import Preloader from "../../components/UI/Preloader/Preloader";
 
 class Quiz extends React.Component {
     state = {
@@ -9,33 +11,9 @@ class Quiz extends React.Component {
         isFinished: false,
         activeQuestion: 0,
         answerState: null, // {[id]: "success" || "error"}
-        quiz: [
-            {
-                id: 1,
-                question: "Какого цвета травка?",
-                rightAnswer: 1,
-                answers: [
-                    {text: "Зеленая", id: 1},
-                    {text: "Красная", id: 2},
-                    {text: "Синяя", id: 3},
-                    {text: "Розовая", id: 4},
-                ]
-            },
-            {
-                id: 2,
-                question: "В каком году основали Санкт Петебург?",
-                rightAnswer: 3,
-                answers: [
-                    {text: "1700", id: 1},
-                    {text: "1702", id: 2},
-                    {text: "1703", id: 3},
-                    {text: "1706", id: 4},
-                ]
-            }
-        ]
+        quiz: [],
+        isFetch: true
     };
-
-    
 
     onAnswerClickHandler = answerId => {
 
@@ -97,26 +75,41 @@ class Quiz extends React.Component {
         });
     }
 
+    async componentDidMount() {
+        try {
+            let response = await axios.get(`quizes/${this.props.match.params.id}.json`);
+            this.setState({quiz: response.data, isFetch: false});
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
     render() {
         return (
             <div className={style.Quiz}>
                 <div className={style.QuizWrapper}>
                     <h1>Ответьте на все вопросы</h1>
-                    {this.state.isFinished
-                        ? <FinishedQuiz
-                            quizLengh={this.state.quiz.length}
-                            quiz={this.state.quiz}
-                            results={this.state.results}
-                            onRestart={this.restartHandler}
-                        />
-                        : <ActiveQuiz
-                            question={this.state.quiz[this.state.activeQuestion].question}
-                            answers={this.state.quiz[this.state.activeQuestion].answers}
-                            onAnswerClick={this.onAnswerClickHandler}
-                            quizLengh={this.state.quiz.length}
-                            questionNumber={this.state.activeQuestion + 1}
-                            answerState={this.state.answerState}
-                        />
+                    {
+                        this.state.isFetch
+                            ? <Preloader/>
+                            : <>
+                                {this.state.isFinished
+                                    ? <FinishedQuiz
+                                        quizLengh={this.state.quiz.length}
+                                        quiz={this.state.quiz}
+                                        results={this.state.results}
+                                        onRestart={this.restartHandler}
+                                    />
+                                    : <ActiveQuiz
+                                        question={this.state.quiz[this.state.activeQuestion].question}
+                                        answers={this.state.quiz[this.state.activeQuestion].answers}
+                                        onAnswerClick={this.onAnswerClickHandler}
+                                        quizLengh={this.state.quiz.length}
+                                        questionNumber={this.state.activeQuestion + 1}
+                                        answerState={this.state.answerState}
+                                    />
+                                }
+                            </>
                     }
                 </div>
             </div>

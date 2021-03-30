@@ -59,11 +59,11 @@ class QuizCreator extends React.Component {
         const index = quiz.length + 1;
 
         const {question, option1, option2, option3, option4} = this.state.formControls;
-        
+
         quiz.push({
             id: index,
             question: question.value,
-            rightAnswer: this.state.rightAnswer,
+            rightAnswer: +this.state.rightAnswer,
             answers: [
                 {text: option1.value, id: option1.id},
                 {text: option2.value, id: option2.id},
@@ -82,15 +82,16 @@ class QuizCreator extends React.Component {
         event.preventDefault();
         try {
             await axios.post("quizes.json", this.state.quiz);
+            this.setState({
+                rightAnswer: 1,
+                isFormValid: false,
+                formControls: createFormControls(),
+                quiz: []
+            });
         } catch (e) {
             console.log(e);
+            alert('Какая-то ошибка');
         }
-        this.setState({
-            rightAnswer: 1,
-            isFormValid: false,
-            formControls: createFormControls(),
-            quiz: []
-        });
     }
     renderFormControls = () => {
         return (
