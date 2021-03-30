@@ -2,19 +2,31 @@ import React from "react";
 import style from "./QuizList.module.scss";
 import {NavLink} from "react-router-dom";
 import axios from "../../axios/axios";
+import Preloader from "../../components/UI/Preloader/Preloader";
 
 class QuizList extends React.Component {
+    state = {
+        isFetch: true,
+        quizes: []
+    }
+
     renderQuizes = () => {
-        return [1,2,3].map((quiz, index)=>(
+        return this.state.quizes.map((quiz, index) => (
             <li key={index}>
-                <NavLink to={"/quiz/"+quiz}>Тест {quiz}</NavLink>
+                <NavLink to={"/quiz/" + quiz.id}>Тест № {index + 1}</NavLink>
             </li>
         ));
     }
 
-    componentDidMount() {
-        axios.get("quiz.json")
-            .then(response => console.log(response));
+    async componentDidMount() {
+        const response = await axios.get('quizes.json');
+        let quizes = this.state.quizes.concat();
+
+        Object.keys(response.data).forEach((key) => {
+            quizes.push({id: key});
+        });
+
+        this.setState({quizes, isFetch: false})
     }
 
     render() {
@@ -22,10 +34,14 @@ class QuizList extends React.Component {
             <div className={style.QuizList}>
                 <div>
                     <h1>QuizList</h1>
+                    {
+                        this.state.isFetch
+                            ? <Preloader/>
+                            : <ul>
+                                {this.renderQuizes()}
+                            </ul>
+                    }
 
-                    <ul>
-                        {this.renderQuizes()}
-                    </ul>
                 </div>
             </div>
         );

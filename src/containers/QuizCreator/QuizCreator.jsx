@@ -56,9 +56,12 @@ class QuizCreator extends React.Component {
     addQuestionHandler = (event) => {
         event.preventDefault();
         let quiz = [...this.state.quiz];
-        const {question, option1, option2, option3, option4} = this.state.formControls
-        // Не хватает id вопроса
+        const index = quiz.length + 1;
+
+        const {question, option1, option2, option3, option4} = this.state.formControls;
+        
         quiz.push({
+            id: index,
             question: question.value,
             rightAnswer: this.state.rightAnswer,
             answers: [
@@ -142,6 +145,7 @@ class QuizCreator extends React.Component {
                     <form onSubmit={this.onSubmitHandler}>
                         {this.renderFormControls()}
                         {select}
+
                         <Button
                             type="primary"
                             onClick={this.addQuestionHandler}
@@ -156,6 +160,7 @@ class QuizCreator extends React.Component {
                         >
                             Создать тест
                         </Button>
+                        <span>Вопросов добавлено {this.state.quiz.length}</span>
                     </form>
                 </div>
             </div>
