@@ -15,24 +15,35 @@ const QuizList = props => {
 
 
     const getQuizes = async () => {
-        try{
+        try {
             const response = await axios.get('quizes.json');
             return Object.keys(response.data).map(el => ({id: el}));
-        } catch (e){
+        } catch (e) {
             console.error(e);
         }
     }
 
-    useEffect( () => {
-       getQuizes().then(r => dispatch(getQuizList(r)));
+    useEffect(() => {
+        getQuizes().then(r => dispatch(getQuizList(r)));
     }, [dispatch])
 
     const renderQuizes = () => {
-        return quizes.map((quiz, index) => (
-            <li key={index}>
-                <NavLink to={"/quiz/" + quiz.id}>Тест № {index + 1}</NavLink>
-            </li>
-        ));
+        if (quizes) {
+            return quizes.map((quiz, index) => (
+                <li key={index}>
+                    <NavLink to={"/quiz/" + quiz.id}>Тест № {index + 1}</NavLink>
+                </li>
+            ));
+        } else {
+                return (
+                    <div style={{color: "white", textAlign:"center"}}>
+                        <h3 style={{marginBottom: "0"}}>Тестов нет</h3>
+                        <h4 style={{marginTop: "0"}}>Будут позже</h4>
+                    </div>
+
+                );
+        }
+
     }
 
     return (

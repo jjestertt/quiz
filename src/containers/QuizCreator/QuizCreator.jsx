@@ -161,7 +161,7 @@ class QuizCreator extends React.Component {
                         >
                             Создать тест
                         </Button>
-                        <span>Вопросов добавлено {this.state.quiz.length}</span>
+                        <div>Вопросов добавлено {this.state.quiz.length}</div>
                     </form>
                 </div>
             </div>

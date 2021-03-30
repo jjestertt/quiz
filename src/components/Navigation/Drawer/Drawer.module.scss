@@ -1,4 +1,4 @@
-.Drawer{
+.Drawer {
   position: fixed;
   top: 0;
   left: 0;
@@ -12,18 +12,22 @@
   transform: translateX(-300px);
   transition: transform .22s ease-in;
 }
-.Drawer.open{
+
+.Drawer.open {
   transform: translateX(0px);
 }
-.Drawer ul{
+
+.Drawer ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-.Drawer ul li{
+
+.Drawer ul li {
   margin-bottom: 15px;
 }
-.Drawer ul li a{
+
+.Drawer ul li a {
   color: #363d54;
   font-size: 30px;
   text-decoration: none;
@@ -31,6 +35,14 @@
   padding: 0 20px 10px 20px;
   transition: opacity .3s;
 }
-.Drawer ul li a:hover, .active{
+
+@media only screen and (max-width: 370px) {
+  .Drawer ul li a {
+    font-size: 25px;
+  }
+}
+
+.Drawer ul li a:hover, .active {
   opacity: .7;
 }
+
