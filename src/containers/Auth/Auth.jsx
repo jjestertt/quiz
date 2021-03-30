@@ -3,6 +3,7 @@ import Button from "./../../components/UI/Button/Button";
 import style from "./Auth.module.scss";
 import Input from "../../components/UI/Input/Input";
 import is from "is_js";
+import axios from "axios";
 
 class Auth extends React.Component {
     state = {
@@ -41,7 +42,7 @@ class Auth extends React.Component {
         e.preventDefault();
     }
 
-    
+
     validateControl = (value, validation) => {
         if (!validation) {
             return true;
@@ -50,25 +51,25 @@ class Auth extends React.Component {
         let isValid = true;
 
         if (validation.required) {
-             if (value.trim() !== "") {
-                 isValid = true;
-             } else {
-                 return {isValid: false, errorMessage: "Поле не должно быть пустым"}
-             }
+            if (value.trim() !== "") {
+                isValid = true;
+            } else {
+                return {isValid: false, errorMessage: "Поле не должно быть пустым"}
+            }
         }
 
         if (validation.email) {
-             if (is.email(value)){
-                 isValid = true;
-             } else {
-                 return {isValid: false, errorMessage: "Введите корректный Email"}
-             }
+            if (is.email(value)) {
+                isValid = true;
+            } else {
+                return {isValid: false, errorMessage: "Введите корректный Email"}
+            }
         }
 
         if (validation.minLength) {
             if (value.trim().length >= validation.minLength) {
                 isValid = true;
-            } else{
+            } else {
                 return {isValid: false, errorMessage: `Минимальная длинна ${validation.minLength} символов`}
             }
         }
@@ -126,11 +127,39 @@ class Auth extends React.Component {
         });
     }
 
-    loginHandler = () => {
-        console.log(this.state.formControls.email);
+    loginHandler = async () => {
+        const formData = {
+            email: this.state.formControls.email.value,
+            password: this.state.formControls.password.value,
+            returnSecureToken: true
+        }
+        try {
+            const response = await axios
+                .post(
+                    "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBw1voB5XeccAUeeQByIgJKRRhcjoNOR3I",
+                    formData
+                );
+            console.log(response);
+        } catch (e) {
+            console.error(e);
+        }
     }
-    registerHandler = () => {
-        console.log(this.state.formControls.password);
+    registerHandler = async () => {
+        const formData = {
+            email: this.state.formControls.email.value,
+            password: this.state.formControls.password.value,
+            returnSecureToken: true
+        }
+        try {
+            const response = await axios
+                .post(
+                    "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBw1voB5XeccAUeeQByIgJKRRhcjoNOR3I",
+                    formData
+                );
+            console.log(response);
+        } catch (e) {
+            console.error(e);
+        }
     }
 
     render() {
