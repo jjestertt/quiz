@@ -1,54 +1,53 @@
-import React from "react";
+import React, {useEffect} from "react";
 import style from "./QuizList.module.scss";
+
+import Preloader from "../../components/UI/Preloader/Preloader";
+import {useDispatch, useSelector} from "react-redux";
 import {NavLink} from "react-router-dom";
 import axios from "../../axios/axios";
-import Preloader from "../../components/UI/Preloader/Preloader";
+import {getQuizList} from "../../redux/quizListReducer";
 
-class QuizList extends React.Component {
-    state = {
-        isFetch: true,
-        quizes: []
+const QuizList = props => {
+    const dispatch = useDispatch();
+
+    const isFetch = useSelector(state => state.isFetch)
+    const quizes = useSelector(state => state.quizes)
+
+
+    const getQuizes = async () => {
+        try{
+            const response = await axios.get('quizes.json');
+            return Object.keys(response.data).map(el => ({id: el}));
+        } catch (e){
+            console.error(e);
+        }
     }
 
-    renderQuizes = () => {
-        return this.state.quizes.map((quiz, index) => (
+    useEffect( () => {
+       getQuizes().then(r => dispatch(getQuizList(r)));
+    }, [dispatch])
+
+    const renderQuizes = () => {
+        return quizes.map((quiz, index) => (
             <li key={index}>
                 <NavLink to={"/quiz/" + quiz.id}>Тест № {index + 1}</NavLink>
             </li>
         ));
     }
 
-    async componentDidMount() {
-        try{
-            const response = await axios.get('quizes.json');
-            let quizes = this.state.quizes.concat();
-
-            Object.keys(response.data).forEach((key) => {
-                quizes.push({id: key});
-            });
-
-            this.setState({quizes, isFetch: false});
-        } catch (e){
-            console.error(e);
-        }
-    }
-
-    render() {
-        return (
-            <div className={style.QuizList}>
-                <div>
-                    <h1>QuizList</h1>
-                    {
-                        this.state.isFetch
-                            ? <Preloader/>
-                            : <ul>
-                                {this.renderQuizes()}
-                            </ul>
-                    }
-                </div>
+    return (
+        <div className={style.QuizList}>
+            <div>
+                <h1>QuizList</h1>
+                {
+                    isFetch
+                        ? <Preloader/>
+                        : <ul>
+                            {renderQuizes()}
+                        </ul>
+                }
             </div>
-        );
-    }
+        </div>
+    )
 }
-
 export default QuizList;
