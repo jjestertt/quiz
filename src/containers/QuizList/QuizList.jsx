@@ -1,23 +1,19 @@
 import React, {useEffect} from "react";
-import style from "./QuizList.module.scss";
-
-import Preloader from "../../components/UI/Preloader/Preloader";
-import {useDispatch, useSelector} from "react-redux";
 import {NavLink} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 
-import {getQuizList} from "../../redux/operations/operations";
+import style from "./QuizList.module.scss";
+import {fetchQuiz} from "../../redux/actions/actions";
+import Preloader from "../../components/UI/Preloader/Preloader";
 
 const QuizList = props => {
     const dispatch = useDispatch();
 
-    const isFetch = useSelector(state => state.isFetch)
-    const quizes = useSelector(state => state.quizes)
-
-
-
+    const isFetch = useSelector(state => state.quiz.isFetch)
+    const quizes = useSelector(state => state.quiz.quizes)
 
     useEffect(() => {
-        dispatch(getQuizList());
+        dispatch(fetchQuiz());
     }, [dispatch]);
 
     const renderQuizes = () => {
@@ -28,15 +24,13 @@ const QuizList = props => {
                 </li>
             ));
         } else {
-                return (
-                    <div style={{color: "white", textAlign:"center"}}>
-                        <h3 style={{marginBottom: "0"}}>Тестов нет</h3>
-                        <h4 style={{marginTop: "0"}}>Будут позже</h4>
-                    </div>
-
-                );
+            return (
+                <div style={{color: "white", textAlign: "center"}}>
+                    <h3 style={{marginBottom: "0"}}>Тестов нет</h3>
+                    <h4 style={{marginTop: "0"}}>Будут позже</h4>
+                </div>
+            );
         }
-
     }
 
     return (
