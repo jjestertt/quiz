@@ -1,4 +1,5 @@
-const GET_QUIZ_LIST = "GET_QUIZ_LIST";
+import {SET_QUIZ_LIST} from "../actionTypes/actionTypes";
+
 
 const initialState = {
     isFetch: true,
@@ -6,21 +7,17 @@ const initialState = {
 }
 const quizListReducer = (state = initialState, action) => {
     switch (action.type) {
-        case GET_QUIZ_LIST: {
+        case SET_QUIZ_LIST: {
             return {
                 ...state,
                 isFetch: false,
-                quizes: action.quizes
+                quizes: action.payload
             }
         }
         default: {
             return state;
         }
     }
-}
-
-export const getQuizList = (quizes) => {
-    return {type: GET_QUIZ_LIST, quizes}
 }
 
 export default quizListReducer;

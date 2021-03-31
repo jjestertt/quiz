@@ -4,8 +4,8 @@ import style from "./QuizList.module.scss";
 import Preloader from "../../components/UI/Preloader/Preloader";
 import {useDispatch, useSelector} from "react-redux";
 import {NavLink} from "react-router-dom";
-import axios from "../../axios/axios";
-import {getQuizList} from "../../redux/quizListReducer";
+
+import {getQuizList} from "../../redux/operations/operations";
 
 const QuizList = props => {
     const dispatch = useDispatch();
@@ -14,18 +14,11 @@ const QuizList = props => {
     const quizes = useSelector(state => state.quizes)
 
 
-    const getQuizes = async () => {
-        try {
-            const response = await axios.get('quizes.json');
-            return Object.keys(response.data).map(el => ({id: el}));
-        } catch (e) {
-            console.error(e);
-        }
-    }
+
 
     useEffect(() => {
-        getQuizes().then(r => dispatch(getQuizList(r)));
-    }, [dispatch])
+        dispatch(getQuizList());
+    }, [dispatch]);
 
     const renderQuizes = () => {
         if (quizes) {
