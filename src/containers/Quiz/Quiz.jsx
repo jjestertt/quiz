@@ -2,17 +2,18 @@ import React from "react";
 import style from "./Quiz.module.scss";
 import ActiveQuiz from "../../components/ActiveQuiz/ActiveQuiz";
 import FinishedQuiz from "../../components/FinishedQuiz/FinishedQuiz";
-import axios from "../../axios/axios";
 import Preloader from "../../components/UI/Preloader/Preloader";
+import {connect} from "react-redux";
+import {fetchQuizById} from "../../redux/actions/actions";
 
 class Quiz extends React.Component {
+
     state = {
         results: {}, // {[id]: "success" || "error"}
         isFinished: false,
         activeQuestion: 0,
         answerState: null, // {[id]: "success" || "error"}
         quiz: [],
-        isFetch: true
     };
 
     onAnswerClickHandler = answerId => {
@@ -34,7 +35,7 @@ class Quiz extends React.Component {
             }
         }
 
-        const question = this.state.quiz[this.state.activeQuestion];
+        const question = this.props.quiz[this.state.activeQuestion];
         const results = this.state.results;
 
         if (question.rightAnswer === answerId) {
@@ -63,7 +64,7 @@ class Quiz extends React.Component {
         }
     }
     isQuizFinished = () => {
-        return this.state.activeQuestion + 1 === this.state.quiz.length;
+        return this.state.activeQuestion + 1 === this.props.quiz.length;
     }
 
     restartHandler = () => {
@@ -75,13 +76,9 @@ class Quiz extends React.Component {
         });
     }
 
-    async componentDidMount() {
-        try {
-            let response = await axios.get(`quizes/${this.props.match.params.id}.json`);
-            this.setState({quiz: response.data, isFetch: false});
-        } catch (e) {
-            console.error(e);
-        }
+    componentDidMount() {
+        console.log(this.props)
+        this.props.fetchQuizById(this.props.match.params.id);
     }
 
     render() {
@@ -90,21 +87,21 @@ class Quiz extends React.Component {
                 <div className={style.QuizWrapper}>
                     <h1>Ответьте на все вопросы</h1>
                     {
-                        this.state.isFetch
+                        this.props.isFetch || !this.props.quiz
                             ? <Preloader/>
                             : <>
                                 {this.state.isFinished
                                     ? <FinishedQuiz
-                                        quizLengh={this.state.quiz.length}
-                                        quiz={this.state.quiz}
+                                        quizLengh={this.props.quiz.length}
+                                        quiz={this.props.quiz}
                                         results={this.state.results}
                                         onRestart={this.restartHandler}
                                     />
                                     : <ActiveQuiz
-                                        question={this.state.quiz[this.state.activeQuestion].question}
-                                        answers={this.state.quiz[this.state.activeQuestion].answers}
+                                        question={this.props.quiz[this.state.activeQuestion].question}
+                                        answers={this.props.quiz[this.state.activeQuestion].answers}
                                         onAnswerClick={this.onAnswerClickHandler}
-                                        quizLengh={this.state.quiz.length}
+                                        quizLengh={this.props.quiz.length}
                                         questionNumber={this.state.activeQuestion + 1}
                                         answerState={this.state.answerState}
                                     />
@@ -117,4 +114,16 @@ class Quiz extends React.Component {
     }
 }
 
-export default Quiz;
+const mapStateToProps = (state) => ({
+    results: state.quiz.results,
+    isFinished: state.quiz.isFinished,
+    activeQuestion: state.quiz.activeQuestion,
+    answerState: state.quiz.answerState, // {[id]: "success" || "error"}
+    quiz: state.quiz.quiz,
+    isFetch: state.quiz.isFetch,
+});
+const mapDispatchToProps = dispatch => ({
+    fetchQuizById: id => dispatch(fetchQuizById(id))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Quiz);
