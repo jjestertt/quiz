@@ -67,17 +67,18 @@ export const fetchQuizById = (id) => async dispatch => {
     }
 }
 
+
+//Получаем правильный ответ у активного вопроса;
+// если в answerState success то return;
+// answerState существует для присвоения класса success или error при клике;
+// Сравниваем правильный ответ с введенным;
+//Если true записываем в answerState и (results(толко если нет false) id и success);
+//Ждем секунду и проверяем последний ли вопрос в списке;
+// Если true выводим Окно с правильными ответами;
+// Если false переключаем вопрос на следующий;
+//Если false записываем в answerState и results id и error ;
 export const quizAnswerClick = (answerId) => (dispatch, getState) => {
     const state = getState().quiz;
-    //Получаем правильный ответ у активного вопроса;
-    // если в answerState success то return;
-    // answerState существует для присвоения класса success или error при клике;
-    // Сравниваем правильный ответ с введенным;
-    //Если true записываем в answerState и (results(толко если нет false) id и success);
-    //Ждем секунду и проверяем последний ли вопрос в списке;
-    // Если true выводим Окно с правильными ответами;
-    // Если false переключаем вопрос на следующий;
-    //Если false записываем в answerState и results id и error ;
 
     if (state.answerState) {
         const key = Object.keys(state.answerState)[0];
@@ -108,7 +109,7 @@ export const quizAnswerClick = (answerId) => (dispatch, getState) => {
 
     } else {
         results[question.id] = "error"
-        dispatch(answerSetState({[answerId]: "success", results}));
+        dispatch(answerSetState({[answerId]: "error", results}));
     }
     const isQuizFinished = () => {
         return state.activeQuestion + 1 === state.quiz.length;
