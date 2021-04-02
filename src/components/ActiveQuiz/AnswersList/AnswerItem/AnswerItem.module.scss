@@ -6,10 +6,13 @@
   cursor: pointer;
 }
 
-.AnswerItem:hover{
-  background: rgba(255,255,255, .2);
-  transition: background-color .3s ease-in-out;
+@media screen and (min-width: 960px){
+  .AnswerItem:hover{
+    background: rgba(255,255,255, .2);
+    transition: background-color .3s ease-in-out;
+  }
 }
+
 .AnswerItem.error{
   background: rgba(240,87,108, .7);
 }

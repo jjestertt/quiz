@@ -38,7 +38,7 @@ const Quiz = props => {
     return (
         <div className={style.Quiz}>
             <div className={style.QuizWrapper}>
-                <h1>Ответьте на все вопросы</h1>
+                <h1 className="mainTitle">Ответьте на все вопросы</h1>
                 {
                     state.isFetch || !state.quiz
                         ? <Preloader/>

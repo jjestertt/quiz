@@ -166,7 +166,7 @@ class Auth extends React.Component {
         return (
             <div className={style.Auth}>
                 <div>
-                    <h1>Авторизация</h1>
+                    <h1 className="mainTitle">Авторизация</h1>
                     <form className={style.authForm} onSubmit={this.submitHandler}>
 
                         {this.inputRenderHandler()}

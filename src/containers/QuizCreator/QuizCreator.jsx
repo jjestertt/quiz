@@ -141,7 +141,7 @@ class QuizCreator extends React.Component {
         return (
             <div className={style.QuizCreator}>
                 <div>
-                    <h1>Создание теста</h1>
+                    <h1 className="mainTitle">Создание теста</h1>
 
                     <form onSubmit={this.onSubmitHandler}>
                         {this.renderFormControls()}

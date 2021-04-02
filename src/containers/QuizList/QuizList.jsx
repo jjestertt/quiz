@@ -36,7 +36,7 @@ const QuizList = props => {
     return (
         <div className={style.QuizList}>
             <div>
-                <h1>QuizList</h1>
+                <h1 className="mainTitle">Список тестов</h1>
                 {
                     isFetch
                         ? <Preloader/>
