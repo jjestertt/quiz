@@ -1,9 +1,8 @@
 import {
-    FETCH_QUIZ_ERROR,
-    FETCH_QUIZ_START,
-    FETCH_QUIZ_SUCCESS,
-    FETCH_QUIZ_BY_ID_SUCCESS, QUIZ_RETRY, QUIZ_SET_STATE, QUIZ_FINISHED, NEXT_QUESTION,
-} from "../actions/actionTypes";
+    FETCH_QUIZ_ERROR, FETCH_QUIZ_START,
+    FETCH_QUIZ_SUCCESS, FETCH_QUIZ_BY_ID_SUCCESS,
+    QUIZ_SET_STATE, NEXT_QUESTION, QUIZ_FINISHED,
+    QUIZ_RETRY,} from "../actions/actionTypes";
 
 const initialState = {
     error: null,
@@ -51,17 +50,17 @@ const quiz = (state = initialState, action) => {
                 results: action.results
             }
         }
-        case QUIZ_FINISHED: {
-            return {
-                ...state,
-                isFinished: true
-            }
-        }
         case NEXT_QUESTION: {
             return {
                 ...state,
                 activeQuestion: state.activeQuestion + 1,
                 answerState: null
+            }
+        }
+        case QUIZ_FINISHED: {
+            return {
+                ...state,
+                isFinished: true
             }
         }
         case QUIZ_RETRY: {
