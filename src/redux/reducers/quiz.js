@@ -2,7 +2,7 @@ import {
     FETCH_QUIZ_ERROR, FETCH_QUIZ_START,
     FETCH_QUIZ_SUCCESS, FETCH_QUIZ_BY_ID_SUCCESS,
     QUIZ_SET_STATE, NEXT_QUESTION, QUIZ_FINISHED,
-    QUIZ_RETRY,} from "../actions/actionTypes";
+    QUIZ_RETRY} from "../actions/actionTypes";
 
 const initialState = {
     error: null,

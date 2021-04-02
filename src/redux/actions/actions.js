@@ -7,7 +7,6 @@ import {
     FETCH_QUIZ_BY_ID_SUCCESS, QUIZ_RETRY, QUIZ_SET_STATE, QUIZ_FINISHED, NEXT_QUESTION
 } from "./actionTypes";
 
-
 export const fetchQuizStart = () => ({
     type: FETCH_QUIZ_START
 });

@@ -17,7 +17,7 @@ const QuizList = props => {
     }, [dispatch]);
 
     const renderQuizes = () => {
-        if (quizes) {
+        if (Object.keys(quizes).length !== 0) {
             return quizes.map((quiz, index) => (
                 <li key={index}>
                     <NavLink to={"/quiz/" + quiz.id}>Тест № {index + 1}</NavLink>
