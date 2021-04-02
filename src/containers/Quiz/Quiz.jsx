@@ -11,6 +11,7 @@ import {
 } from "../../redux/actions/actions";
 
 const Quiz = props => {
+    const dispatch = useDispatch();
     const state = useSelector(state => {
         return {
             results: state.quiz.results,
@@ -21,7 +22,6 @@ const Quiz = props => {
             isFetch: state.quiz.isFetch,
         }
     });
-    const dispatch = useDispatch();
 
     const onAnswerClickHandler = answerId => {
         dispatch(quizAnswerClick(answerId));

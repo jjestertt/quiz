@@ -25,9 +25,9 @@ export const fetchQuizError = (error) => ({
     error
 });
 
-export const answerSetState = (answerState) => ({
-    type: ANSWER_SET_STATE, answerState
-});
+export const answerSetState = (answerState, results) => (
+    {type: ANSWER_SET_STATE, answerState, results}
+);
 
 export const nextQuestion = () => ({
     type: NEXT_QUESTION
@@ -40,8 +40,6 @@ export const finishedQuiz = () => ({
 export const restartQuiz = () => {
     return {type: RESTART_QUIZ};
 }
-
-
 
 
 export const fetchQuiz = () => async dispatch => {
@@ -57,7 +55,7 @@ export const fetchQuiz = () => async dispatch => {
     }
 }
 
-export const fetchQuizById = (id = {}) => async dispatch => {
+export const fetchQuizById = (id) => async dispatch => {
     dispatch(fetchQuizStart());
     try {
         let response = await axios.get(`quizes/${id}.json`);
@@ -80,6 +78,7 @@ export const fetchQuizById = (id = {}) => async dispatch => {
 export const quizAnswerClick = (answerId) => (dispatch, getState) => {
     const state = getState().quiz;
 
+    //Это чтобы не нажималась кнопка если уже выбран верный ответ
     if (state.answerState) {
         const key = Object.keys(state.answerState)[0];
         if (state.answerState[key] === "success") {
@@ -88,13 +87,14 @@ export const quizAnswerClick = (answerId) => (dispatch, getState) => {
     }
 
     const question = state.quiz[state.activeQuestion];
-    const results = state.results;
+    const results = {...state.results};
+
 
     if (question.rightAnswer === answerId) {
         if (!results[question.id]) {
             results[question.id] = "success";
         }
-        dispatch(answerSetState({[answerId]: "success", results}));
+        dispatch(answerSetState({[answerId]: "success"}, results));
 
         const timeout = window.setTimeout(() => {
             dispatch(answerSetState(null));
@@ -109,7 +109,7 @@ export const quizAnswerClick = (answerId) => (dispatch, getState) => {
 
     } else {
         results[question.id] = "error"
-        dispatch(answerSetState({[answerId]: "error", results}));
+        dispatch(answerSetState({[answerId]: "error"}, results));
     }
     const isQuizFinished = () => {
         return state.activeQuestion + 1 === state.quiz.length;

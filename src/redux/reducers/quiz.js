@@ -48,7 +48,8 @@ const quiz = (state = initialState, action) => {
         case ANSWER_SET_STATE: {
             return {
                 ...state,
-                answerState: action.answerState
+                answerState: action.answerState,
+                results: { ...state.results, ...action.results}
             }
         }
         case FINISHED_QUIZ: {
@@ -70,11 +71,9 @@ const quiz = (state = initialState, action) => {
                 activeQuestion: 0,
                 answerState: null,
                 // Надо ли очищать массив имутабельно
-                results: [],
+                results: {},
             }
         }
-
-
         default: {
             return state;
         }
