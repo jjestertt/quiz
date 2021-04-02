@@ -7,6 +7,7 @@ const FinishedQuiz = props => {
     const rightResults = Object.keys(props.results).filter(result => props.results[result] === "success");
 
     const goToListQuizHandler = () =>{
+        props.onRestart();
         // Это можно заменить обернув кнопку в компонент <Link />
         props.history.push({
             pathname:"/"
