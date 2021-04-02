@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import style from "./FinishedQuiz.module.scss"
 import Button from "../UI/Button/Button";
 import {withRouter} from "react-router-dom";
@@ -7,12 +7,13 @@ const FinishedQuiz = props => {
     const rightResults = Object.keys(props.results).filter(result => props.results[result] === "success");
 
     const goToListQuizHandler = () =>{
-        props.onRestart();
         // Это можно заменить обернув кнопку в компонент <Link />
         props.history.push({
             pathname:"/"
         });
     }
+    // clear state then will unmount component
+    useEffect(() => props.onRestart);
 
     return (
         <div className={style.FinishedQuiz}>
