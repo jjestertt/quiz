@@ -4,7 +4,7 @@ import {
     FETCH_QUIZ_START,
     FETCH_QUIZ_SUCCESS,
     FETCH_QUIZ_ERROR,
-    FETCH_QUIZ_BY_ID_SUCCESS, RESTART_QUIZ, ANSWER_SET_STATE, FINISHED_QUIZ, NEXT_QUESTION
+    FETCH_QUIZ_BY_ID_SUCCESS, QUIZ_RETRY, QUIZ_SET_STATE, QUIZ_FINISHED, NEXT_QUESTION
 } from "./actionTypes";
 
 
@@ -25,20 +25,20 @@ export const fetchQuizError = (error) => ({
     error
 });
 
-export const answerSetState = (answerState, results) => (
-    {type: ANSWER_SET_STATE, answerState, results}
+export const quizSetState = (answerState, results) => (
+    {type: QUIZ_SET_STATE, answerState, results}
 );
 
 export const nextQuestion = () => ({
     type: NEXT_QUESTION
 });
 
-export const finishedQuiz = () => ({
-    type: FINISHED_QUIZ
+export const quizFinished = () => ({
+    type: QUIZ_FINISHED
 });
 
-export const restartQuiz = () => {
-    return {type: RESTART_QUIZ};
+export const quizRestart = () => {
+    return {type: QUIZ_RETRY};
 }
 
 
@@ -94,13 +94,12 @@ export const quizAnswerClick = (answerId) => (dispatch, getState) => {
         if (!results[question.id]) {
             results[question.id] = "success";
         }
-        dispatch(answerSetState({[answerId]: "success"}, results));
+        dispatch(quizSetState({[answerId]: "success"}, results));
 
         const timeout = window.setTimeout(() => {
-            dispatch(answerSetState(null));
 
             if (isQuizFinished()) {
-                dispatch(finishedQuiz());
+                dispatch(quizFinished());
             } else {
                 dispatch(nextQuestion());
             }
@@ -109,7 +108,7 @@ export const quizAnswerClick = (answerId) => (dispatch, getState) => {
 
     } else {
         results[question.id] = "error"
-        dispatch(answerSetState({[answerId]: "error"}, results));
+        dispatch(quizSetState({[answerId]: "error"}, results));
     }
     const isQuizFinished = () => {
         return state.activeQuestion + 1 === state.quiz.length;

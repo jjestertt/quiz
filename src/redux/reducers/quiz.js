@@ -2,7 +2,7 @@ import {
     FETCH_QUIZ_ERROR,
     FETCH_QUIZ_START,
     FETCH_QUIZ_SUCCESS,
-    FETCH_QUIZ_BY_ID_SUCCESS, RESTART_QUIZ, ANSWER_SET_STATE, FINISHED_QUIZ, NEXT_QUESTION,
+    FETCH_QUIZ_BY_ID_SUCCESS, QUIZ_RETRY, QUIZ_SET_STATE, QUIZ_FINISHED, NEXT_QUESTION,
 } from "../actions/actionTypes";
 
 
@@ -45,14 +45,14 @@ const quiz = (state = initialState, action) => {
                 error: action.error
             }
         }
-        case ANSWER_SET_STATE: {
+        case QUIZ_SET_STATE: {
             return {
                 ...state,
                 answerState: action.answerState,
-                results: { ...state.results, ...action.results}
+                results: action.results
             }
         }
-        case FINISHED_QUIZ: {
+        case QUIZ_FINISHED: {
             return {
                 ...state,
                 isFinished: true
@@ -61,10 +61,11 @@ const quiz = (state = initialState, action) => {
         case NEXT_QUESTION: {
             return {
                 ...state,
-                activeQuestion: state.activeQuestion + 1
+                activeQuestion: state.activeQuestion + 1,
+                answerState: null
             }
         }
-        case RESTART_QUIZ: {
+        case QUIZ_RETRY: {
             return {
                 ...state,
                 isFinished: false,
