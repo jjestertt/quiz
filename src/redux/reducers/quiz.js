@@ -5,7 +5,6 @@ import {
     FETCH_QUIZ_BY_ID_SUCCESS, QUIZ_RETRY, QUIZ_SET_STATE, QUIZ_FINISHED, NEXT_QUESTION,
 } from "../actions/actionTypes";
 
-
 const initialState = {
     error: null,
     isFetch: false,

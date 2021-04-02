@@ -25,9 +25,9 @@ export const fetchQuizError = (error) => ({
     error
 });
 
-export const quizSetState = (answerState, results) => (
-    {type: QUIZ_SET_STATE, answerState, results}
-);
+export const quizSetState = (answerState, results) => ({
+        type: QUIZ_SET_STATE, answerState, results
+});
 
 export const nextQuestion = () => ({
     type: NEXT_QUESTION
@@ -37,7 +37,7 @@ export const quizFinished = () => ({
     type: QUIZ_FINISHED
 });
 
-export const quizRestart = () => {
+export const quizRetry = () => {
     return {type: QUIZ_RETRY};
 }
 
@@ -65,7 +65,7 @@ export const fetchQuizById = (id) => async dispatch => {
     }
 }
 
-
+// Логика на клик по ответу
 //Получаем правильный ответ у активного вопроса;
 // если в answerState success то return;
 // answerState существует для присвоения класса success или error при клике;

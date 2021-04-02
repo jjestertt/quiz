@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     fetchQuizById,
     quizAnswerClick,
-    quizRestart
+    quizRetry
 } from "../../redux/actions/actions";
 
 const Quiz = props => {
@@ -25,11 +25,11 @@ const Quiz = props => {
 
     const onAnswerClickHandler = answerId => dispatch(quizAnswerClick(answerId));
 
-    const restartHandler = () => dispatch(quizRestart());
+    const restartHandler = () => dispatch(quizRetry());
 
     useEffect(() => {
         dispatch(fetchQuizById(props.match.params.id));
-        return dispatch(quizRestart());
+        return dispatch(quizRetry());
     }, [dispatch, props.match.params.id]);
 
     return (
