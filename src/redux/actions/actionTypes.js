@@ -7,3 +7,6 @@ export const QUIZ_SET_STATE = "quiz/QUIZ_SET_STATE";
 export const NEXT_QUESTION = "quiz/NEXT_QUESTION";
 export const QUIZ_FINISHED = "quiz/QUIZ_FINISHED";
 export const QUIZ_RETRY = "quiz/QUIZ_RETRY";
+
+export const ADD_QUESTION = "quizCreator/ADD_QUESTION";
+export const QUIZ_CLEAR = "quizCreator/QUIZ_CLEAR";
