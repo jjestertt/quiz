@@ -29,7 +29,9 @@ const Quiz = props => {
 
     useEffect(() => {
         dispatch(fetchQuizById(props.match.params.id));
-        return dispatch(quizRetry());
+        //useEffect работает как аналог willUnmount
+        // когда мы возвращаем функцию которая выполняет какое либо действие
+        return () => {dispatch(quizRetry());}
     }, [dispatch, props.match.params.id]);
 
     return (
