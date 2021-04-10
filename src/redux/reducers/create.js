@@ -4,7 +4,7 @@ const initialState = {
     quiz: [],
 }
 
-const quizCreator = (state = initialState, action) => {
+const createReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_QUESTION: {
             return {
@@ -24,4 +24,4 @@ const quizCreator = (state = initialState, action) => {
     }
 }
 
-export default quizCreator;
+export default createReducer;

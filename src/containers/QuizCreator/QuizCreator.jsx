@@ -5,7 +5,7 @@ import {createFormControl, formValidate, validateControl} from "../../form/formF
 import Input from "../../components/UI/Input/Input";
 import Select from "../../components/UI/Select/Select";
 import {connect} from "react-redux";
-import {addQuestion, quizCreate} from "../../redux/actions/actions";
+import {addQuestion, quizCreate} from "../../redux/actions/create";
 
 const createOptionControl = (number) => {
     return createFormControl({
@@ -48,7 +48,6 @@ class QuizCreator extends React.Component {
             formControls,
             isFormValid: formValidate(formControls)
         });
-
     }
     onSubmitHandler = event => {
         event.preventDefault();
@@ -56,13 +55,10 @@ class QuizCreator extends React.Component {
     addQuestionHandler = (event) => {
         event.preventDefault();
 
-        let quiz = [...this.props.quiz];
-        const index = quiz.length + 1;
-
         const {question, option1, option2, option3, option4} = this.state.formControls;
 
-        const newQuestion = {
-            id: index,
+        this.props.addQuestion({
+            id: this.props.quiz.length + 1,
             question: question.value,
             rightAnswer: +this.state.rightAnswer,
             answers: [
@@ -71,9 +67,7 @@ class QuizCreator extends React.Component {
                 {text: option3.value, id: option3.id},
                 {text: option4.value, id: option4.id},
             ]
-        }
-
-        this.props.addQuestion(newQuestion);
+        });
 
         this.setState({
             rightAnswer: 1,
@@ -81,6 +75,7 @@ class QuizCreator extends React.Component {
             formControls: createFormControls()
         });
     }
+
     createQuizHandler = async (event) => {
         event.preventDefault();
         this.props.quizCreate();
@@ -90,6 +85,7 @@ class QuizCreator extends React.Component {
             formControls: createFormControls(),
         });
     }
+
     renderFormControls = () => {
         return (
             Object.keys(this.state.formControls).map((controlName, index) => {
@@ -168,7 +164,7 @@ class QuizCreator extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        quiz: state.quizCreator.quiz
+        quiz: state.create.quiz
     }
 }
 
