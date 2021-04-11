@@ -30,6 +30,8 @@ class Drawer extends React.Component {
             links = [
                 {to: "/", label: "Список тестов", exact: true},
                 {to: "/quiz-creator", label: "Добавить тест", exact: false},
+                // Еще одна кнопка выход в стиле обшего списка
+                // {to: "/logout", label: "Выйти", exact: false},
             ]
         }
         return (
@@ -39,15 +41,14 @@ class Drawer extends React.Component {
                     <ul>
                         {this.renderLinks(links)}
                     </ul>
-                    {this.props.isAuth && <Button
-                        style={{marginLeft: 20}}
-                        type="error"
-                        onClick={() => {
-                            this.props.authLogout()
-                        }}
-                    >
-                        Выйти
-                    </Button>}
+                    {/*В место текстовой строки Выйти из аккаунта можно сделать крассную кнопку*/}
+                    {this.props.isAuth && <NavLink to="/logout">
+                        <Button
+                            style={{marginLeft: 20}}
+                            type="error">
+                            Выйти
+                        </Button>
+                    </NavLink>}
                 </nav>
             </>
         );
