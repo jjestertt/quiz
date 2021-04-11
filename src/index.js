@@ -7,17 +7,13 @@ import reportWebVitals from "./reportWebVitals";
 import {HashRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 
-let app = (
-    <Provider store={store}>
-        <HashRouter>
-            <App/>
-        </HashRouter>
-    </Provider>
-);
-
 ReactDOM.render(
     <React.StrictMode>
-        {app}
+        <Provider store={store}>
+            <HashRouter>
+                <App/>
+            </HashRouter>
+        </Provider>
     </React.StrictMode>,
     document.getElementById('root')
 );

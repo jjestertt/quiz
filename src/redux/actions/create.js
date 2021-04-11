@@ -11,7 +11,7 @@ export const quizClear = () => {
 }
 
 export const quizCreate = () => async (dispatch, getState) => {
-    const state = getState().quizCreator;
+    const state = getState().create;
     try {
         await axios.post("quizes.json", state.quiz);
         dispatch(quizClear());

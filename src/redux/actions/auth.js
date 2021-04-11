@@ -1,6 +1,5 @@
 import axios from "axios";
 import {AUTH_SUCCESS, AUTH_LOGOUT} from "./actionTypes";
-import Logout from "../../components/Logout/Logout";
 
 export const authSuccess = (token) => ({
     type: AUTH_SUCCESS, token
