@@ -12,4 +12,4 @@ export const ADD_QUESTION = "quizCreator/ADD_QUESTION";
 export const QUIZ_CLEAR = "quizCreator/QUIZ_CLEAR";
 
 export const AUTH_SUCCESS = "auth/AUTH_SUCCESS";
-export const LOGOUT = "auth/LOGOUT";
+export const AUTH_LOGOUT = "auth/AUTH_LOGOUT";

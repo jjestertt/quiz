@@ -9,6 +9,7 @@
   text-transform: uppercase;
   font-weight: bold;
   font-size: 12px;
+  cursor: pointer;
 }
 .Button:focus{
   outline: none;
@@ -23,6 +24,7 @@
 }
 .error{
   background: rgba(240,87,108, 1);
+  color: #ffffff;
 }
 .success{
   background: rgba(161,240,69, 1);

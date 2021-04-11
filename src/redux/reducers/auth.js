@@ -1,4 +1,4 @@
-import {AUTH_SUCCESS, LOGOUT} from "../actions/actionTypes";
+import {AUTH_SUCCESS, AUTH_LOGOUT} from "../actions/actionTypes";
 
 const initialState = {
     token: null,
@@ -12,7 +12,7 @@ const authReducer = (state = initialState, action) => {
                 token: action.token
             }
         }
-        case LOGOUT: {
+        case AUTH_LOGOUT: {
             return {
                 ...state,
                 token: null

@@ -1,11 +1,11 @@
 import axios from "axios";
-import {AUTH_SUCCESS, LOGOUT} from "./actionTypes";
+import {AUTH_SUCCESS, AUTH_LOGOUT} from "./actionTypes";
 
 export const authSuccess = (token) => ({
     type: AUTH_SUCCESS, token
 });
-export const logout = () => ({
-    type: LOGOUT
+export const authLogout = () => ({
+    type: AUTH_LOGOUT
 });
 
 export const autoLogout = (time) => dispatch => {
@@ -14,7 +14,7 @@ export const autoLogout = (time) => dispatch => {
         localStorage.removeItem("userId");
         localStorage.removeItem("expirationDate");
 
-        dispatch(logout());
+        dispatch(authLogout());
     }, time * 1000);
 }
 
