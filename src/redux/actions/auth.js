@@ -30,7 +30,6 @@ export const autoLogin = () => dispatch => {
 }
 
 export const autoLogout = (time) => dispatch => {
-    console.log('time autoLogout :' + time)
     setTimeout(() => {
         dispatch(authLogout());
     }, time * 1000);
