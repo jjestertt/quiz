@@ -1,15 +1,16 @@
-import React from "react";
+import React, {useState} from "react";
 import Button from "./../../components/UI/Button/Button";
 import style from "./Auth.module.scss";
 import Input from "../../components/UI/Input/Input";
 import is from "is_js";
-import {connect} from "react-redux";
+import {useDispatch} from "react-redux";
 import {login} from "../../redux/actions/auth";
 
-class Auth extends React.Component {
-    state = {
-        isFormValid: false,
-        formControls: {
+const Auth = props => {
+    const dispatch = useDispatch();
+    const [isFormValid, setIsFormValid] = useState(false);
+    const [formControls, setFormControls] = useState(
+        {
             email: {
                 value: "",
                 type: "email",
@@ -36,13 +37,13 @@ class Auth extends React.Component {
                     maxLength: 50
                 }
             },
-        }
-    }
+        });
 
-    submitHandler = (e) => {
+
+    const submitHandler = (e) => {
         e.preventDefault();
     }
-    validateControl = (value, validation) => {
+    const validateControl = (value, validation) => {
         if (!validation) {
             return true;
         }
@@ -83,35 +84,37 @@ class Auth extends React.Component {
 
         return {isValid};
     }
-    onChangeHandler = (e, controlName) => {
-        const formControls = {...this.state.formControls}
-        const control = {...formControls[controlName]}
+    const onChangeHandler = (e, controlName) => {
+        const formControlsTemp = {...formControls}
+        const control = {...formControlsTemp[controlName]}
         control.value = e.target.value;
         control.touched = true;
 
-        let validateControl = this.validateControl(control.value, control.validation);
-        control.valid = validateControl.isValid;
-        control.errorMessage = validateControl.errorMessage;
+        let validateControlTemp = validateControl(control.value, control.validation);
 
-        formControls[controlName] = control;
+        control.valid = validateControlTemp.isValid;
+        control.errorMessage = validateControlTemp.errorMessage;
+
+        formControlsTemp[controlName] = control;
 
         let isFormValid = true;
 
-        Object.keys(formControls).forEach(item => {
-            isFormValid = formControls[item].valid && isFormValid;
+        Object.keys(formControlsTemp).forEach(item => {
+            isFormValid = formControlsTemp[item].valid && isFormValid;
         });
 
-        this.setState({formControls, isFormValid});
+        setFormControls(formControlsTemp);
+        setIsFormValid(isFormValid);
     }
-    inputRenderHandler = () => {
-        return Object.keys(this.state.formControls).map((controlName, index) => {
-            const control = this.state.formControls[controlName];
+    const inputRenderHandler = () => {
+        return Object.keys(formControls).map((controlName, index) => {
+            const control = formControls[controlName];
             return (
                 <Input
                     key={controlName + index}
                     value={control.value}
                     onChange={(e) => {
-                        this.onChangeHandler(e, controlName)
+                        onChangeHandler(e, controlName)
                     }}
                     type={control.type}
                     label={control.label}
@@ -123,50 +126,48 @@ class Auth extends React.Component {
             );
         });
     }
-    loginHandler = () => {
-        this.props.login(
-            this.state.formControls.email.value,
-            this.state.formControls.password.value,
+    const loginHandler = () => {
+        dispatch(login(
+            formControls.email.value,
+            formControls.password.value,
             true
-        );
+        ));
     }
-    registerHandler = () => {
-        this.props.login(
-            this.state.formControls.email.value,
-            this.state.formControls.password.value,
-        );
+    const registerHandler = () => {
+        dispatch(login(
+            formControls.email.value,
+            formControls.password.value,
+        ));
     }
 
-    render() {
-        return (
-            <div className={style.Auth}>
-                <div>
-                    <h1 className="mainTitle">Авторизация</h1>
-                    <form className={style.authForm} onSubmit={this.submitHandler}>
+    return (
+        <div className={style.Auth}>
+            <div>
+                <h1 className="mainTitle">Авторизация</h1>
+                <form className={style.authForm} onSubmit={submitHandler}>
 
-                        {this.inputRenderHandler()}
+                    {inputRenderHandler()}
 
-                        <Button
-                            type="success"
-                            onClick={this.loginHandler}
-                            disabled={!this.state.isFormValid}
-                        >
-                            Войти
-                        </Button>
-                        <Button
-                            type="primary"
-                            onClick={this.registerHandler}
-                            disabled={!this.state.isFormValid}
-                        >
-                            Зарегистрироваться
-                        </Button>
-                    </form>
-                </div>
+                    <Button
+                        type="success"
+                        onClick={loginHandler}
+                        disabled={!isFormValid}
+                    >
+                        Войти
+                    </Button>
+                    <Button
+                        type="primary"
+                        onClick={registerHandler}
+                        disabled={!isFormValid}
+                    >
+                        Зарегистрироваться
+                    </Button>
+                </form>
             </div>
-        );
-    }
+        </div>
+    );
 }
-const mapDispatchToProps = (dispatch) => ({
-    login: (email, password, isAuth) => dispatch(login(email, password, isAuth)),
-});
-export default connect(null, mapDispatchToProps)(Auth);
+
+
+
+export default Auth;
