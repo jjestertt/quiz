@@ -5,8 +5,8 @@ const Input = props => {
     const inputType = props.type || "text";
     const cls = [style.Input,]
 
-    const isInvalid = ({touched, valid, shouldValidate}) => {
-        return !valid && shouldValidate && touched;
+    const isInvalid = ({errors, touched, name}) => {
+        return (errors && touched[name])
     }
 
     if (isInvalid(props)) {
@@ -22,8 +22,9 @@ const Input = props => {
                 type={inputType}
                 value={props.value}
                 onChange={props.onChange}
+                {...props}
             />
-            {isInvalid(props) && <span>{props.errorMessage || "Введите верное значение"}</span>}
+            { isInvalid(props) && <span>{props.errors || "Введите верное значение"}</span>}
         </div>
     );
 }
