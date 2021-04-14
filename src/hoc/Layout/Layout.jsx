@@ -4,7 +4,7 @@ import MenuToggle from "../../components/Navigation/MenuToggle/MenuToggle";
 import Drawer from "../../components/Navigation/Drawer/Drawer";
 import {connect} from "react-redux";
 import {authLogout} from "../../redux/actions/auth";
-import TotalError from "../../components/Navigation/TotalError/TotalError";
+import TotalError from "../../components/TotalError/TotalError";
 import {fetchQuizError} from "../../redux/actions/actions";
 
 class Layout extends React.Component {

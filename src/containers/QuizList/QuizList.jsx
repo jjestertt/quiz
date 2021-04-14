@@ -27,7 +27,8 @@ const QuizList = props => {
             return (
                 <div style={{color: "white", textAlign: "center"}}>
                     <h3 style={{marginBottom: "0"}}>Тестов нет</h3>
-                    <h4 style={{marginTop: "0"}}>Будут позже</h4>
+                    <p style={{margin: 0, marginTop: 10}}>Чтобы добавить свой тест</p>
+                    <p style={{margin: "0"}}>Пройдите регистрацию</p>
                 </div>
             );
         }
