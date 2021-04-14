@@ -3,7 +3,7 @@ import {NavLink} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 
 import style from "./QuizList.module.scss";
-import {fetchQuiz} from "../../redux/actions/actions";
+import {fetchQuiz, fetchQuizError} from "../../redux/actions/actions";
 import Preloader from "../../components/UI/Preloader/Preloader";
 
 const QuizList = props => {
@@ -14,6 +14,9 @@ const QuizList = props => {
 
     useEffect(() => {
         dispatch(fetchQuiz());
+        return (() => {
+            dispatch(fetchQuizError(null));
+        });
     }, [dispatch]);
 
     const renderQuizes = () => {
