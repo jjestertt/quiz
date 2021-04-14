@@ -7,14 +7,14 @@ const Select = props => {
       <div className={style.Select}>
           <label htmlFor={htmlFor}>{props.label}</label>
           <select
+              name={props.name}
               id={htmlFor}
-              value={props.value}
-              onChange={props.onChange}
+              {...props}
           >
               {
                   props.options.map((option, i) => {
                      return (
-                         <option key={i} value={option.value}>{option.text}</option>
+                         <option key={i}>{option.text}</option>
                      );
                   })
               }

@@ -15,3 +15,15 @@ export const authValidate = values => {
 
     return errors;
 };
+
+export const quizCreateValidate = values => {
+    const errors = {};
+
+    Object.keys(values).forEach(field => {
+        if (!values[field]) {
+            errors[field] = 'Поле не может быть пустым';
+        }
+    })
+
+    return errors;
+}
