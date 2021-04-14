@@ -19,7 +19,7 @@ export const fetchQuizByIdSuccess = (payload) => {
     return {type: FETCH_QUIZ_BY_ID_SUCCESS, payload};
 }
 
-export const fetchQuizError = (error) => ({
+export const fetchQuizError = (error)  => ({
     type: FETCH_QUIZ_ERROR,
     error
 });
@@ -39,6 +39,13 @@ export const quizFinished = () => ({
 export const quizRetry = () => {
     return {type: QUIZ_RETRY};
 }
+ export const toggleQuizError = error => dispatch => {
+    dispatch(fetchQuizError(error));
+
+    setTimeout(() => {
+        dispatch(fetchQuizError(null))
+    }, 7000);
+ }
 
 export const fetchQuiz = () => async dispatch => {
     dispatch(fetchQuizStart());

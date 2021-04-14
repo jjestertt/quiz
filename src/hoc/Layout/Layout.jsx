@@ -4,6 +4,8 @@ import MenuToggle from "../../components/Navigation/MenuToggle/MenuToggle";
 import Drawer from "../../components/Navigation/Drawer/Drawer";
 import {connect} from "react-redux";
 import {authLogout} from "../../redux/actions/auth";
+import TotalError from "../../components/Navigation/TotalError/TotalError";
+import {fetchQuizError} from "../../redux/actions/actions";
 
 class Layout extends React.Component {
     state = {
@@ -16,6 +18,10 @@ class Layout extends React.Component {
     menuCloseHandler = () =>{
         this.setState({menu: false});
     }
+    closeErrorHandler = () => {
+        this.props.fetchQuizError(null);
+    }
+
     render() {
         return (
             <div className={style.Layout}>
@@ -25,6 +31,7 @@ class Layout extends React.Component {
                     isOpen={this.state.menu}
                     onToggle={this.menuToggleHandler}
                 />
+                <TotalError closeErrorHandler={this.closeErrorHandler} error={this.props.error}/>
                 <main>
                     {this.props.children}
                 </main>
@@ -34,7 +41,8 @@ class Layout extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    isAuth: !!state.auth.token
+    isAuth: !!state.auth.token,
+    error: state.quiz.error
 });
 
-export default connect(mapStateToProps, {authLogout})(Layout);
+export default connect(mapStateToProps, {authLogout, fetchQuizError})(Layout);

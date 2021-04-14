@@ -1,5 +1,6 @@
 import axios from "axios";
 import {AUTH_SUCCESS, AUTH_LOGOUT} from "./actionTypes";
+import {toggleQuizError} from "./actions";
 
 export const authSuccess = (token) => ({
     type: AUTH_SUCCESS, token
@@ -60,7 +61,7 @@ export const login = (email, password, isLogin) => {
             dispatch(authSuccess(response.data.idToken));
             dispatch(autoLogout(data.expiresIn));
         } catch (e) {
-            console.error(e);
+            dispatch(toggleQuizError("Ошибка авторизации"));
         }
     }
 };
