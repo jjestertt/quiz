@@ -1,4 +1,4 @@
-const validate = values => {
+export const authValidate = values => {
     const errors = {};
 
     if (!values.email) {
@@ -15,5 +15,3 @@ const validate = values => {
 
     return errors;
 };
-
-export default validate;

@@ -2,33 +2,22 @@ import React from "react";
 import style from "./Auth.module.scss";
 import {useDispatch} from "react-redux";
 import {login} from "../../redux/actions/auth";
-import {useFormik} from "formik";
 import AuthForm from "./AuthForm/AuthForm";
-import validate from "../../helpers/validate";
 
-const Auth = props => {
+
+const Auth = () => {
     const dispatch = useDispatch();
-
-    const formik = useFormik({
-        initialValues: {
-            email: "",
-            password: ""
-        },
-        validate,
-        onSubmit: () => null,
-    });
-
-    const loginHandler = () => {
+    const loginHandler = (values) => {
         dispatch(login(
-            formik.values.email,
-            formik.values.password,
+            values.email,
+            values.password,
             true
         ));
     }
-    const registerHandler = () => {
+    const registerHandler = (values) => {
         dispatch(login(
-            formik.values.email,
-            formik.values.password,
+            values.email,
+            values.password,
         ));
     }
 
@@ -39,7 +28,6 @@ const Auth = props => {
                 <AuthForm
                     loginHandler={loginHandler}
                     registerHandler={registerHandler}
-                    formik={formik}
                 />
             </div>
         </div>

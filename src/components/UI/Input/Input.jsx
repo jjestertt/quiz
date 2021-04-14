@@ -1,31 +1,24 @@
 import React from "react";
 import style from "./Input.module.scss";
+import {Field} from "formik";
+
 
 const Input = props => {
     const inputType = props.type || "text";
-    const cls = [style.Input,]
+    const isValid = (meta) => (meta.touched && meta.error);
 
-    const isInvalid = ({errors, touched, name}) => {
-        return (errors && touched[name])
-    }
-
-    if (isInvalid(props)) {
-        cls.push(style.invalid);
-    }
-
-    return(
-        <div className={cls.join(" ")}>
-            <label>
-                {props.label}
-            </label>
-            <input
-                type={inputType}
-                value={props.value}
-                onChange={props.onChange}
-                {...props}
-            />
-            { isInvalid(props) && <span>{props.errors || "Введите верное значение"}</span>}
-        </div>
+    return (
+            <Field name={props.name}>
+                {({field,  meta}) => (
+                    <div className={`${style.Input} ${isValid(meta) && style.invalid}`}>
+                        <label htmlFor={props.id}>
+                            {props.label}
+                        </label>
+                        <input id={props.id} type={inputType} {...field} />
+                        {isValid(meta) && <span>{meta.error}</span>}
+                    </div>
+                )}
+            </Field>
     );
 }
 
