@@ -56,7 +56,7 @@ export const fetchQuiz = () => async dispatch => {
         dispatch(fetchQuizSuccess(payload));
 
     } catch (e) {
-        dispatch(toggleQuizError("Тестов пока нет"));
+        console.log(e);
     }
 }
 
@@ -66,7 +66,7 @@ export const fetchQuizById = (id) => async dispatch => {
         let response = await axios.get(`quizes/${id}.json`);
         dispatch(fetchQuizByIdSuccess(response.data));
     } catch (e) {
-        dispatch(toggleQuizError("Ошибка получения вопросов"));
+        console.log(e);
     }
 }
 

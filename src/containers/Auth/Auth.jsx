@@ -4,6 +4,8 @@ import {useDispatch} from "react-redux";
 import {login} from "../../redux/actions/auth";
 import AuthForm from "./AuthForm/AuthForm";
 import {fetchQuizError} from "../../redux/actions/actions";
+import Button from "../../components/UI/Button/Button";
+import axios from "axios";
 
 
 const Auth = () => {
@@ -28,7 +30,6 @@ const Auth = () => {
             });
         }
     );
-
     return (
         <div className={style.Auth}>
             <div>
